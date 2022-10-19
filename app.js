@@ -7,7 +7,6 @@ const express = require('express');
 const cors = require('cors')
 const qrcode = require('qrcode-terminal');
 const { Client,LocalAuth  } = require('whatsapp-web.js');
-const mysqlConnection = require('./config/mysql')
 const { middlewareClient } = require('./middleware/client')
 const { generateImage, cleanNumber, checkEnvFile, createClient, isValidNumber } = require('./controllers/handle')
 const { connectionReady, connectionLost } = require('./controllers/connection')
@@ -20,7 +19,7 @@ app.use(express.json())
 const MULTI_DEVICE = process.env.MULTI_DEVICE || 'true';
 const server = require('http').Server(app)
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 var client;
 app.use('/', require('./routes/web'))
 
@@ -155,15 +154,6 @@ client.on('authenticated', () => {
 
     client.initialize();
 
-
-
-/**
- * Verificamos si tienes un gesto de db
- */
-
-if (process.env.DATABASE === 'mysql') {
-    mysqlConnection.connect()
-}
 
 server.listen(port, () => {
     console.log(`El server esta listo por el puerto ${port}`);
